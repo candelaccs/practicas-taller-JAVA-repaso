@@ -1,1 +1,322 @@
+clase PROYECTO 
 
+public class Proyecto {
+    
+    private String nombreProyecto;
+    private String nombreDirector;
+    private int codigo;
+    private int dimF = 50;
+    private Investigador [] vector = new Investigador [dimF];
+    private int dimL =0;
+    private int i; // la declaro aca ya que la usare dos veces //
+    private int j; // idem //
+    
+    public Proyecto (String nomPro, String nomDir, int cod){
+        
+        setNombreProyecto (nomPro);
+        setNombreDirector (nomDir);
+        setCodigo (cod);
+    }
+
+    public String getNombreProyecto() {
+        return nombreProyecto;
+    }
+
+    public void setNombreProyecto(String nombreProyecto) {
+        this.nombreProyecto = nombreProyecto;
+    }
+
+    public String getNombreDirector() {
+        return nombreDirector;
+    }
+
+    public void setNombreDirector(String nombreDirector) {
+        this.nombreDirector = nombreDirector;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public Investigador[] getVector() {
+        return vector;
+    }
+
+    public void setVector(Investigador[] vector) {
+        this.vector = vector;
+    }
+    
+    
+    
+    
+    public void agregarInvestigador(Investigador unInvestigador){
+        
+           if (this.dimL < this.dimF ) {
+             
+               this.vector [this.dimL] = unInvestigador;
+               this.dimL = this.dimL+1;
+               System.out.println(" se pudo agregar al investigador ");
+           }
+           
+           else
+                System.out.println(" no se pudo agregar al investigador, los cupos estan llenos ");
+            
+        
+    }
+    
+    
+    public double montoInvestigador (int pos) {
+        
+        double aux= 0;
+        
+        for (j=0; j< this.vector[i].getCantSubsidios(); j++ )
+            
+            aux = aux + getVector()[pos].getVectorSub() [j].getMonto();
+        
+        return aux;
+    }
+    
+    
+    
+    public double dineroTotalOtorgado() { // esta bien? //
+        
+        
+        
+        double aux=0;
+        
+        for (i=0; i<dimL; i++ ) {
+            
+            if (this.vector[i].getCantSubsidios() > 0){
+            
+                    aux = aux + this.montoInvestigador(i);
+            }    
+        }
+        
+        return aux;
+    }
+    
+    public void otorgarTodos(String nombreCompleto){
+        
+        for (i=0; i< this.dimL; i++) {
+            
+            if (this.vector[i].getNombre().equals(nombreCompleto)) {
+                
+                for (j=0; j< this.vector [i].getCantSubsidios(); j++){
+                    
+                    this.vector [i].getVectorSub()[j].setOtorgado(true);
+                    
+                
+                }
+                
+               System.out.println (" sus subsidios fueron aceptados ");
+                    
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        
+        String aux = "";
+        
+        System.out.println("Proyecto: " + nombreProyecto + ", nombreDirector: " + nombreDirector + ", codigo: " + codigo + this.dineroTotalOtorgado());
+        
+           for (i=0; i<this.dimL; i++)  {
+               
+               aux = aux + this.vector [i].toString() + " el monto total de los subsidios pedidos es " + this.montoInvestigador(i)+ "\n"; // se acumula todo en el aux y uso n/ para que se muestre ordenado en pantalla // 
+               
+           }
+           return aux;
+    }
+       
+}
+
+clase INVESTIGADOR
+
+public class Investigador {
+    
+    private String nombre;
+    private int categoria;
+    private String especialidad;
+    private int cantSubsidios = 0;
+    private Subsidio [] vectorSub = new Subsidio [5];
+    
+    public Investigador (String nom, int cat, String esp) {
+        
+        setNombre (nom);
+        setCategoria (cat);
+        setEspecialidad (esp);
+        
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+     public int getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(int categoria) {
+        this.categoria = categoria;
+    
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public int getCantSubsidios() {
+        return cantSubsidios;
+    }
+
+    public void setCantSubsidios(int cantSubsidios) {
+        this.cantSubsidios = cantSubsidios;
+    }
+
+    public Subsidio[] getVectorSub() {
+        return vectorSub;
+    }
+
+    
+    public void setVectorSub(Subsidio[] vectorSub) {
+        this.vectorSub = vectorSub;
+    }
+    
+    
+   /* public void inicializarVector (){
+       
+        int i;
+        
+        for (i=0; i<5; i++)
+            
+            this.vectorSub [i].isOtorgado() ;
+        
+    }*/
+    
+    
+    public void agregarSubsidio (Subsidio unSubsidio){
+        
+        if (this.cantSubsidios < 5) {
+            
+            // this.vectorSub [this.cantSubsidios].setOtorgado(true);
+            this.vectorSub [this.cantSubsidios] = unSubsidio;
+            this.cantSubsidios = this.cantSubsidios +1;
+            System.out.println(" su subsidio fue puesto en espera ");
+            
+        }
+         
+        else
+             System.out.println(" usted ya tiene 5 subsidios pedidios (el maximo de subsidios otorgables");
+        
+    }
+
+    @Override
+    public String toString() {
+        return "Investigador " + "nombre: " + nombre + ", categoria: " + categoria + ", especialidad: " + especialidad;
+    }
+        
+}
+
+
+clase SUBSIDIO 
+
+public class Subsidio {
+    
+    private double monto;
+    private String motivo;
+    private boolean otorgado = false;
+    
+    public Subsidio (double mon, String mot){
+        
+        setMonto (mon);
+        setMotivo (mot);
+        
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public boolean isOtorgado() {
+        return otorgado;
+    }
+
+    public void setOtorgado(boolean otorgado) {
+        this.otorgado = otorgado;
+    }
+            
+}
+
+
+MAIN
+
+public class ejercicioUNLPproyectos {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+         
+        
+        Proyecto p = new Proyecto (" proyecto lagunas ", "emilio ", 122);
+        Investigador i = new Investigador (" pepe ", 3 , " filosofo ");
+        Investigador o = new Investigador ( "juliana ", 1 , " investigadora ");
+        Investigador u = new  Investigador ( " maxi ", 2 , " research " );
+        
+        p.agregarInvestigador(i); 
+            
+            Subsidio unSubsidio = new Subsidio ( 12035, " sillas ");
+            i.agregarSubsidio(unSubsidio);
+            unSubsidio = new Subsidio (14587, " mesas") ;
+            i.agregarSubsidio(unSubsidio);
+            
+        
+      
+        p.agregarInvestigador(o); 
+            
+            unSubsidio = new Subsidio ( 4521, " pantallas ");
+            o.agregarSubsidio(unSubsidio);
+            unSubsidio = new Subsidio (7412, " mouses") ;
+            o.agregarSubsidio(unSubsidio);
+            
+            
+        p.agregarInvestigador(u); 
+            
+            unSubsidio = new Subsidio ( 369, " vasos ");
+            o.agregarSubsidio(unSubsidio);
+            unSubsidio = new Subsidio (666, " platos") ;
+            o.agregarSubsidio(unSubsidio); 
+            
+            
+       p.otorgarTodos("juliana ");
+       
+       System.out.println(p.toString());
+        
+    }
+    
+}
