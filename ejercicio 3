@@ -1,0 +1,274 @@
+recital
+
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
+public abstract class Recital  {
+    
+    private String banda;
+    private String [] temas;
+    private int dimF;
+    private int dimL = 0;
+    
+    public Recital (String nom, int cant){
+        
+        setBanda (nom);
+        setDim (cant);
+        this.temas = new String [getDim()];
+        
+    }
+
+    public String getBanda() {
+        return banda;
+    }
+
+    public void setBanda(String banda) {
+        this.banda = banda;
+    }
+
+    public int getDim() {
+        return dimF;
+    }
+
+    public void setDim(int dim) {
+        this.dimF = dim;
+    }
+    
+    public void agregarTema (String nom){
+        
+        if (this.dimL < this.dimF){
+          this.temas [dimL] = nom;
+          this.dimL = this.dimL++;
+        }  
+    }
+    
+    public String actuar (){
+        
+        String aux = "";
+        
+        for (int i=0; i<this.dimL; i++){
+            aux = aux + "y ahora tocaremos " + this.temas [i] + "\n";
+        }
+        
+        return aux;
+    }
+    
+    public abstract double calcularCosto ();
+    
+}
+
+gira
+
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
+public class Gira extends Recital {
+    
+    private Recital recital;
+    private String nombre;
+    private Fecha [] fechas;
+    private int dimF;
+    private int dimL =0;
+    private int actual=0;
+    
+    public Gira (String nom, int cant, String artista, int cant2){
+        
+        super (artista, cant2 );
+        setNombre (nom);
+        setDim (cant);
+        this.fechas = new Fecha [getDim()];
+        
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getDim() {
+        return dimF;
+    }
+
+    public void setDim(int dim) { // esto deberia ir privado? //
+        this.dimF = dim;
+    }
+    
+    public void agregarFecha (Fecha f){ 
+        
+        if (this.dimL < this.dimF) {
+          this.fechas [this.dimL] = f;
+          this.dimL= this.dimL++;
+        }
+    }
+    
+    public String actuarGira (){
+        
+        String aux = " buenas noches " + this.fechas [actual].getCiudad() + recital.actuar();
+        this.actual = this.actual++;
+        return aux;
+    }
+    
+    public double calcularCosto (){
+        
+        double costo = 30.000 * this.dimL;
+        return costo;
+    }
+}
+
+fecha
+
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
+public class Fecha {
+    
+    private String ciudad;
+    private int dia;
+    
+    public Fecha (String city, int day){
+        
+        setCiudad (city);
+        setDia (day);
+        
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+
+    public int getDia() {
+        return dia;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+    
+    
+    
+}
+
+evento
+
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
+public class Evento extends Recital {
+    
+    private Recital recital;
+    private String motivo;
+    private String contratante;
+    private int dia;
+    
+    public Evento (String m, int dia, String c, String artista, int cant2){
+        
+        super (artista, cant2);
+        setMotivo (m);
+        setContratante (c);
+        setDia (dia);
+        
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public void setContratante(String contratante) {
+        this.contratante = contratante;
+    }
+
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+    
+    public String actuarEvento (){
+        
+        String aux = "";
+        if (this.motivo.equals("beneficiencia"))
+            aux = " recuerde colaborar con " + this.contratante;
+        else
+            if (this.motivo.equals("tv"))
+                aux = " saludos amigos televidentes ";
+            else
+                if (this.motivo.equals("privado"))
+                    aux = " un feliz cumpleaños para " + this.contratante;
+        
+        aux = aux + this.contratante + recital.actuar();
+        
+        return aux;
+    }
+    
+    public double calcularCosto (){
+        
+        double costo = 0; 
+        
+        if (this.motivo.equals("beneficiencia"))
+            costo = 0;
+        else
+            if (this.motivo.equals("tv"))
+                costo = 50.000;
+            else
+                if (this.motivo.equals("privado"))
+                    costo = 150.000;
+        
+        return costo;
+    }
+}
+
+MAIN
+
+public class Ejercicio3Repaso {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+       
+        
+        // reporteAnio ra = new reporteAnio ( new Estacion ("La Plata", 34921, 57955), 3, 2021); //
+        
+        Evento ev = new Evento ("privado", 21, "candela", "Arctic Monkeys", 9);
+        Gira gi = new Gira ("Mistery White Boy", 9, " Jeff Buckley ", 5);
+        
+        gi.agregarTema(" Lover You Should've Come Over");
+        gi.agregarTema( " Mojo Pin ");
+        gi.agregarTema( " So Real ");
+        gi.agregarTema( "Grace ");
+        gi.agregarTema(" Last Goodbye ");
+        gi.agregarFecha(new Fecha (" Buenos Aires ", 1));
+        gi.agregarFecha(new Fecha (" Varsovia " ,2));
+        gi.agregarFecha( new Fecha (" London ", 3));
+        gi.agregarFecha(new Fecha (" Amsterdam ", 4));
+        gi.agregarFecha(new Fecha (" Paris ", 5));
+        
+        ev.agregarTema( " Arabella ");
+        ev.agregarTema(" Do I wanna Know ");
+        ev.agregarTema(" You're so Dark");
+        ev.agregarTema(" 505 ");
+        ev.agregarTema(" I Wanna Be Yours ");
+        ev.agregarTema(" BrianStorm");
+        ev.agregarTema(" Fluorescent Adolescent ");
+        
+        gi.calcularCosto();
+        gi.actuarGira();
+        
+        ev.calcularCosto();
+        ev.actuarEvento();
+    }
+    
+}
