@@ -17,7 +17,7 @@ public abstract class Recital  {
         
         setBanda (nom);
         setDim (cant);
-        this.temas = new String [getDim()];
+        this.temas = new String [getDim()]; // consultar esto //
         
     }
 
@@ -49,8 +49,8 @@ public abstract class Recital  {
         
         String aux = "";
         
-        for (int i=0; i<this.dimL; i++){
-            aux = aux + "y ahora tocaremos " + this.temas [i] + "\n";
+        for (int i=0; i<this.dimL; i++){ // debería poner < que dimL o que dimF? //
+            aux = aux + "y ahora tocaremos " + this.temas [i] + "\n"; // cuando realmente se usa el this ? //
         }
         
         return aux;
@@ -70,7 +70,7 @@ package ejercicio3repaso;
  */
 public class Gira extends Recital {
     
-    private Recital recital;
+    //private Recital recital;//
     private String nombre;
     private Fecha [] fechas;
     private int dimF;
@@ -108,7 +108,7 @@ public class Gira extends Recital {
     
     public String actuarGira (){
         
-        String aux = " buenas noches " + this.fechas [actual].getCiudad() + recital.actuar();
+        String aux = " buenas noches " + this.fechas [actual].getCiudad() + super.actuar();
         this.actual = this.actual++;
         return aux;
     }
@@ -120,47 +120,7 @@ public class Gira extends Recital {
     }
 }
 
-fecha
-
-package ejercicio3repaso;
-
-/**
- *
- * @author cande
- */
-public class Fecha {
-    
-    private String ciudad;
-    private int dia;
-    
-    public Fecha (String city, int day){
-        
-        setCiudad (city);
-        setDia (day);
-        
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public void setDia(int dia) {
-        this.dia = dia;
-    }
-
-    public int getDia() {
-        return dia;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-    
-    
-    
-}
-
-evento
+evento ocasional
 
 package ejercicio3repaso;
 
@@ -170,7 +130,7 @@ package ejercicio3repaso;
  */
 public class Evento extends Recital {
     
-    private Recital recital;
+    //private Recital recital; quiza estto no hace falta? , creo que no va //
     private String motivo;
     private String contratante;
     private int dia;
@@ -200,15 +160,15 @@ public class Evento extends Recital {
         
         String aux = "";
         if (this.motivo.equals("beneficiencia"))
-            aux = " recuerde colaborar con " + this.contratante;
+            aux = " recuerde colaborar con " + this.contratante + "\n";
         else
             if (this.motivo.equals("tv"))
-                aux = " saludos amigos televidentes ";
+                aux = " saludos amigos televidentes " + "\n";
             else
                 if (this.motivo.equals("privado"))
-                    aux = " un feliz cumpleaños para " + this.contratante;
+                    aux = " un feliz cumpleaños para " + this.contratante + "\n";
         
-        aux = aux + this.contratante + recital.actuar();
+        aux = aux + super.actuar();
         
         return aux;
     }
@@ -217,7 +177,7 @@ public class Evento extends Recital {
         
         double costo = 0; 
         
-        if (this.motivo.equals("beneficiencia"))
+        if (this.motivo.equals("beneficiencia")) // aca van los {} ?m //
             costo = 0;
         else
             if (this.motivo.equals("tv"))
@@ -230,8 +190,54 @@ public class Evento extends Recital {
     }
 }
 
+fecha
+
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
+public class Fecha {
+    
+    private String ciudad;
+    private int dia;
+    
+    public Fecha (String c, int d){
+        
+        setCiudad (c); // usar set o this ? a veces el set no me anda //
+        setDia (d);
+        
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+
+    public int getDia() {
+        return dia;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+    
+    
+    
+}
+
 MAIN
 
+package ejercicio3repaso;
+
+/**
+ *
+ * @author cande
+ */
 public class Ejercicio3Repaso {
 
     /**
@@ -272,3 +278,5 @@ public class Ejercicio3Repaso {
     }
     
 }
+
+
